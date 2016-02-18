@@ -1,0 +1,18 @@
+# This script will move the .tif and .avi files out of the ouput folder into whatever folder you specify
+cd ../output
+rm *.csv
+rm *.bin
+
+mkdir -p './SmallClot/8k'
+mv *.tif $_
+mv *.avi $_
+mv *.mat $_
+mv *.info $_
+
+
+cd $_
+mkdir -p ./forward;
+mv *_forward* $_
+
+mkdir -p ./reverse;
+mv *_reverse* $_

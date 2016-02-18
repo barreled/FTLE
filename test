@@ -1,0 +1,20 @@
+# This script will run an FTLE analysis on a set of ASCII files exported from DaVis.
+# Output files will be a sequence of .vtk files that can be visualized in ParaView. 
+# DaVis files should be named Bxxxxx.txt, with the "xxxxx" replaced by number startiong from 00001.
+# The analysis will ignore any mask data when interpreting the velocity data.
+
+# Clean up any old files before creating new ones
+cd output
+rm *.bin
+rm *.vtk
+rm*.info
+
+# Run the analysis according to the settings in Cart.in and Cart_reverse.in
+cd ../input
+./flowVC nonCart.in
+
+# Convert the output files into .vtk
+cd ../output
+./bin2vtk 5 2 dg_forwardFTLE 0 37 1 dg_forwardFTLE
+./bin2vtk 5 2 dg_forwardFTLE_noT 0 37 1 dg_forwardFTLE
+

@@ -1,0 +1,24 @@
+% lyapunov3D.m
+
+% from a thesis from Chalmers
+
+function FTLE=lyapunov3D(flow_map,Np,x_index,y_index,T)
+def_grad=zeros(3,3,Np); % matrix to store gradient for each particle
+FTLE=zeros(Np,1); % vector to store FTLE:s
+FTLEindex=zeros(Np,1);
+
+% calculate def_grad by finite differencing
+for k=1:Np
+    xyij=[x_index(k,:); y_index(k,:); z_index(k,:)];
+    for i=1:3
+        for j=1:3
+            def_grad(i,j,k)=...
+                (flow_map(xyij(j,2),i,2)-flow_map(xyij(j,1),i,2))...
+                /(flow_map(xyij(j,2),j,1)-flow_map(xyij(j,1),j,1));
+        end
+    end
+    def_grad(:,:,k)=def_grad(:,:,k)'*def_grad(:,:,k);
+    lambda=eig(def_grad(:,:,k));
+    lambda_m=sort(lambda(1:end));
+    FTLE(k)=1/T*log(sqrt(lambda_m(end)));
+end

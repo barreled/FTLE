@@ -1,0 +1,222 @@
+% LITS_FTLE.m
+
+% From a thesis from Chalmers
+%-------------------------------------------------------------------------
+%
+% Calculate 3D FTLE field of solution data obtained from Fluent %
+%
+%--------------------------------------------------
+%-----------------------
+%
+% matrix columns of sol_data:
+% 1 nodenumber
+% 2 x-coordinate
+% 3 y-coordinate
+% 4 z-coordinate
+% 5 x-velocity
+% 6 y-velocity
+% 7 z-velocity
+%
+%-------------------------------------------------------------------------
+%
+%% create injection grid
+
+% set grid-resolution
+% grid_res_xy=1.4e-4;
+% grid_res_z=3e-4;
+
+% BH - Lowered grid resolution, using too much memory and probably way too
+% fine for our data
+grid_res_xy = 5e-1;
+% grid_res_z = 0.1;
+
+
+% x=[-0.013 0.001];
+% y=[-0.021 -0.0075];
+% z=[0.11 0.145];
+
+%BH
+x=[-44 60];
+y=[-37 41];
+% z=[0 0.1];
+
+
+nx=floor((x(2)-x(1))/grid_res_xy)+1;
+ny=floor((y(2)-y(1))/grid_res_xy)+1;
+% nz=floor((z(2)-z(1))/grid_res_z)+1;
+
+% make interval even
+x(2)=x(1)+(nx-1)*grid_res_xy;
+y(2)=y(1)+(ny-1)*grid_res_xy;
+% z(2)=z(1)+(nz-1)*grid_res_z;
+
+% set interval of all three space dimensions
+x0=linspace(x(1),x(2),nx)';
+y0=linspace(y(1),y(2),ny)';
+% z0=linspace(z(1),z(2),nz)';
+
+% create vectors of all grid points
+x=x0*ones(1,ny);
+x=x(1:end)';
+% x=x*ones(1,nz);
+x=x(1:end)';
+y=ones(nx,1)*y0';
+y=y(1:end)';
+% y=y*ones(1,nz);
+y=y(1:end)';
+% z=ones(nx,1)*z0';
+% z=z(1:end)';
+% z=ones(ny,1)*z';
+% z=z(1:end)';
+% Np=nx*ny*nz; % no. particles
+Np=nx*ny; % BH - no. particles
+
+check=sqrt(x.^2+y.^2)>=0.025;
+s=sum(check);
+
+
+% BH - Commented this out because it always fails. I'm guessing that the
+% ">=0.025" part was only applicable to their small domain, ours is much larger.
+
+% if s>0
+%     error('particles sided outside of domain')
+% end
+
+% clear x0 y0 z0 check s grid_res_xy grid_res_z
+clear x0 y0 check s grid_res_xy
+
+%% calculate particle tracks
+% tstart=5300; % time step where advection begins
+% tend=4801; % and the last time step
+
+%BH
+tstart = 0;
+tend = 0.95;
+
+% create vectors to store particle locations
+
+% Nt=tstart-tend+1; % no. time steps
+Nt = 39; %BH
+
+X=zeros(Np,3);
+Y=X;
+Z=X;
+X(:,end)=x;
+Y(:,end)=y;
+% Z(:,end)=z;
+X(:,2)=x;
+Y(:,2)=y;
+% Z(:,2)=z;
+
+t = -0.001; % length of time step [s]
+
+h=waitbar(0,'Calculating flow map...');
+
+% for tstep=tstart:-1:tend
+for i=1:1:39
+    
+%     name=['solution_data-' num2str(tstep)];
+%     sol_data0=dlmread(name,'',1,0);
+    %BH
+    name = ['C' num2str(i, '%0.5d') '.txt'];
+    sol_data0=dlmread(name,'',1,0);
+    
+%     [~, m]=sort(sol_data0(:,4));
+%     sol_data0=sol_data0(m,:); % arrange according to z-value
+    % BH - Don't have to arrange by z value, since they're all zero
+    
+    % create interpolation function
+%     x0=sol_data0(:,2);
+%     y0=sol_data0(:,3);
+%     z0=sol_data0(:,4);
+
+    %BH
+    x0 = sol_data0(:,1);
+    y0 = sol_data0(:,2);
+%     z0 = zeros(length(x0),1);
+    
+%     vx0=sol_data0(:,5);
+%     vy0=sol_data0(:,6);
+%     vz0=sol_data0(:,7);
+
+    % BH - x1000 because the map is 
+    vx0 = sol_data0(:,3)*1000;
+    vy0 = sol_data0(:,4)*1000;
+%     vz0 = zeros(length(vx0),1);
+    
+%     VIx0=TriScatteredInterp(x0,y0,z0,vx0);
+%     VIy0=TriScatteredInterp(x0,y0,z0,vy0);
+    VIx0=TriScatteredInterp(x0,y0,vx0);
+    VIy0=TriScatteredInterp(x0,y0,vy0);
+%     VIz0=TriScatteredInterp(x0,y0,z0,vz0);
+    
+%     % calculate relative position of z-coordinates within periodic boundary
+%     Zrel=(Z(:,2)./0.2-floor(Z(:,2)./0.2))*0.2;
+    
+    % interpolate new positions
+%     X(:,1)=X(:,2)+t*VIx0(X(:,2),Y(:,2),Zrel);
+%     Y(:,1)=Y(:,2)+t*VIy0(X(:,2),Y(:,2),Zrel);
+    X(:,1)=X(:,2)+t*VIx0(X(:,2),Y(:,2));
+    Y(:,1)=Y(:,2)+t*VIy0(X(:,2),Y(:,2));
+%     Z(:,1)=Z(:,2)+t*VIz0(X(:,2),Y(:,2),Zrel);
+    
+    X(:,2)=X(:,1);
+    Y(:,2)=Y(:,1);
+%     Z(:,2)=Z(:,1);
+    
+    waitbar(i/Nt)
+    
+%     clear x0 y0 z0 vx0 vy0 vz0 VIx0 VIy0 VIz0 sol_data0 name m Zrel
+    clear x0 y0 vx0 vy0 VIx0 VIy0 sol_data0 name m 
+end
+
+run=1;
+delete(h)
+
+name1=['flow_map-bt-' num2str(tstart) '-x-' num2str(run) '.txt'];
+name2=['flow_map-bt-' num2str(tstart) '-y-' num2str(run) '.txt'];
+% name3=['flow_map-bt-' num2str(tstart) '-z-' num2str(run) '.txt'];
+
+save(name1,'X','-ascii','-double')
+save(name2,'Y','-ascii','-double')
+% save(name3,'Z','-ascii','-double')
+
+clear i h tstep tstart tend tcrit t name1 name2 name3 run
+clear i h tstep tstart tend tcrit t name1 name2 run
+
+%% create flow map
+% flow_map=zeros(Np,3,2);
+% flow_map(:,:,1)=[X(:,end) Y(:,end) Z(:,end)];
+% flow_map(:,:,2)=[X(:,1) Y(:,1) Z(:,1)];
+flow_map=zeros(Np,2,2);
+flow_map(:,:,1)=[X(:,end) Y(:,end)];
+flow_map(:,:,2)=[X(:,1) Y(:,1)];
+
+%% create index vectors
+x_index=zeros(Np,2);
+x_index(:,1)=(1:Np)';
+x_index(:,2)=(1:Np)';
+y_index=x_index;
+% z_index=x_index;
+
+for i=1:nx:Np-nx+1
+    x_index(i:i+nx-1,1)=x_index(i:i+nx-1,1)-[0; ones(nx-1,1)];
+    x_index(i:i+nx-1,2)=x_index(i:i+nx-1,2)+[ones(nx-1,1); 0];
+end
+
+for j=1:nx*ny:Np-nx*ny+1
+    y_index(j:j+nx*ny-1,1)=y_index(j:j+nx*ny-1,1)-[zeros(nx,1); nx*ones(nx*ny-nx,1)];
+    y_index(j:j+nx*ny-1,2)=y_index(j:j+nx*ny-1,2)+[nx*ones(nx*ny-nx,1);zeros(nx,1)];
+end
+% 
+% z_index(nx*ny+1:Np,1)=z_index(nx*ny+1:Np,1)-nx*ny*ones(Np-nx*ny,1);
+% z_index(1:Np-nx*ny,2)=z_index(1:Np-nx*ny,2)+nx*ny*ones(Np-nx*ny,1);
+
+clear i j
+
+%% calculate FTLE
+T=Nt*0.001;
+% FTLE=lyapunov3D(flow_map,Np,x_index,y_index,z_index,T);
+FTLE=lyapunov3D(flow_map,Np,x_index,y_index,0,T);
+% FTLE=lyapunov2D(flow_map,Np,x_index,y_index,T);
+clear T
