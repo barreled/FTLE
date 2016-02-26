@@ -104,17 +104,17 @@ for i = 0:(N-1)
    fileframe = [bag, ' - ', speed, ' - ', 'forward',num2str(i,'%d'),'.tif']; 
    fileframe2 = [bag, ' - ', speed, ' - ', 'reverse',num2str(i,'%d'),'.tif']; 
    try
-       R(i+1)=im2frame(imread(fileframe));
+       R(i+1)=im2frame(imread(fileframe2));
    catch
-       display(['Last file was ', fileframe]);
+       display(['Last file was ', fileframe2]);
        break
    end
    
    
    try
-       F(i+1)=im2frame(imread(fileframe2));
+       F(i+1)=im2frame(imread(fileframe));
    catch
-       display(['Last file was ',fileframe2]);
+       display(['Last file was ',fileframe]);
        break
    end
     
