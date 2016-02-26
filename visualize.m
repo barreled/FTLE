@@ -3,12 +3,13 @@
 % (which are Lagrangian Coherent Structures), and turn that into a movie.
 
 
-function visualize()
-clear;
+function visualize(bag, speed)
 clc;
 %tic;
 system('./nonCartFTLE');
 cd('output')
+lowerlimit = 1;
+upperlimit = 8;
 
 %% Intialization, adapted from PIV2Doppler
 % clear all;
@@ -40,7 +41,7 @@ cd('output')
 
 
 %% Make N contour images from the converted FTLE files, save them as "LCS.X.tif"
-N = 40; % number of FTLE files
+N = 38; % number of FTLE files
 figure(1);
 set(gcf,'visible','off');
 
@@ -53,13 +54,13 @@ for i = 0:(N-1);
         display(['Last file was "converted_reverse.',num2str(i-1),'.csv"']);
         break
     end
-    matfilename = ['converted_reverse',num2str(i),'.mat'];
+    matfilename = [bag, ' - ', speed, ' - ', 'reverse',num2str(i),'.mat'];
     save(matfilename,'reverse');
     hpc = pcolor(reverse);
 %     set(hpc,'facealpha',0.4);
     shading flat
     colorbar
-    caxis([1 8])
+    caxis([lowerlimit upperlimit])
     hold on;
 %     x = 1:length(reverse);
 %     [lmaxima,indices] = localmax(reverse,[],false);
@@ -67,7 +68,7 @@ for i = 0:(N-1);
 %     plot(x(iCol),x(iRow),'marker','p',...
 %    'linestyle','none', 'color', 'g');
     hold off
-    print(1, ['LCS_reverse',num2str(i,'%d')], '-dtiff','-r100','-noui');
+    print(1, [bag, ' - ', speed, ' - ', 'reverse',num2str(i,'%d'),'.tif'], '-dtiff','-r100','-noui');
     display(['Saved reverse FTLE image #',num2str(i)])
 end
 
@@ -79,13 +80,13 @@ for i = 0:(N-1);
         display(['Last file was "converted.',num2str(i-1),'.csv"']);
         break
     end
-    matfilename = ['converted_forward',num2str(i),'.mat'];
+    matfilename = [bag, ' - ', speed, ' - ', 'forward',num2str(i),'.mat'];
     save(matfilename,'forward');
     hpc = pcolor(forward);
 %     set(hpc,'facealpha',0.4);
     shading flat
     colorbar
-    caxis([1 8])
+    caxis([lowerlimit upperlimit])
     hold on;
 %     x = 1:length(forward);
 %     [lmaxima,indices] = localmax(forward,[],false);
@@ -93,19 +94,19 @@ for i = 0:(N-1);
 %     plot(x(iCol),x(iRow),'marker','p',...
 %     'linestyle','none', 'color', 'g');
     hold off
-    print(1, ['LCS_forward',num2str(i,'%d')], '-dtiff','-r100','-noui');
+    print(1, [bag, ' - ', speed, ' - ', 'forward',num2str(i,'%d'),'.tif'], '-dtiff','-r100','-noui');
     display(['Saved forward FTLE image #',num2str(i)])
 end
 
 
 %% Check for .tif files, adapted from PIV2Doppler/mkmovframebyframe
 for i = 0:(N-1)
-   fileframe = ['LCS_reverse', num2str(i), '.tif']; 
-   fileframe2 = ['LCS_forward', num2str(i), '.tif']; 
+   fileframe = [bag, ' - ', speed, ' - ', 'forward',num2str(i,'%d'),'.tif']; 
+   fileframe2 = [bag, ' - ', speed, ' - ', 'reverse',num2str(i,'%d'),'.tif']; 
    try
        R(i+1)=im2frame(imread(fileframe));
    catch
-       display(['Last file was "LCS_reverse', num2str(i-1), '.tif"']);
+       display(['Last file was ', fileframe]);
        break
    end
    
@@ -113,7 +114,7 @@ for i = 0:(N-1)
    try
        F(i+1)=im2frame(imread(fileframe2));
    catch
-       display(['Last file was "LCS_forward', num2str(i-1), '.tif"']);
+       display(['Last file was ',fileframe2]);
        break
    end
     
@@ -122,19 +123,25 @@ end
 
 %% Make the movie, also adapted from PIV2Doppler/mkmovframebyframe
 
-aviname = 'LCS_forward.avi';
-aviname2 = 'LCS_reverse.avi';
+aviname = ['forward - ', bag, ' - ', speed, '.avi'];
+aviname2 = ['reverse - ', bag, ' - ', speed, '.avi'];
 
 framesPerSec = 4;
 
-movie2avi(F,aviname,'compression','none','quality',100,'fps',framesPerSec);
-movie2avi(R,aviname2,'compression','none','quality',100,'fps',framesPerSec);
-
-disp(['LCS movies saved']);
+try
+    movie2avi(F,aviname,'compression','none','quality',100,'fps',framesPerSec);
+    movie2avi(R,aviname2,'compression','none','quality',100,'fps',framesPerSec);
+    disp(['LCS movies saved']);
+catch
+    disp('An error occured in making the movies')
+end
 
 %toc
 
 system('../copyfolder');
-cd('..')
+% disp(pwd)
+cd('..');
+% disp(pwd)
+% disp('end visualization')
 return
 

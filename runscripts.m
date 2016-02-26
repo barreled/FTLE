@@ -5,8 +5,9 @@
 % find/replace operations later on from failing. Always have the same start
 % point.
 tic
+cd('/home/biolab/Desktop/Brian/FTLE/PIVdata');
 system('cp ''copyfolder template'' copyfolder');
-fileID = fopen('Run errors.txt');
+fileID = fopen('Run errors.txt', 'wt');
 
 
 %% Normal Bag
@@ -20,9 +21,9 @@ try
     system('cp -a -rf ./bin/Normal/LVADoff/. ./bin/');
     % Change the output folder in 'copyfolder' - not needed for first case
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
     
 
@@ -31,13 +32,15 @@ speed = '8k';
 
 try
     % Copy data into /bin
+    pwd
     system('cp -a -rf ./bin/Normal/8k/. ./bin/');
+    pwd
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/LVADoff/8k/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 
@@ -50,9 +53,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/8k/11k/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% Small Clot
@@ -68,9 +71,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/11k/LVADoff/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% 8k
@@ -82,9 +85,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/LVADoff/8k/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% 11k
@@ -96,9 +99,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/8k/11k/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% Cannula 1 Large
@@ -114,9 +117,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/11k/1.8k/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% 2.3k
@@ -128,9 +131,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/1.8k/2.3k/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 
@@ -143,9 +146,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/2.3k/off/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 
@@ -162,9 +165,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/off/1.8k/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 
@@ -177,9 +180,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/1.8k/2.3k/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% off
@@ -191,9 +194,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/2.3k/off/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% Cannula 2 Large
@@ -209,9 +212,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/off/1.8k/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% 2.3k
@@ -223,9 +226,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/1.8k/2.3k/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% off
@@ -237,9 +240,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/2.3k/off/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% Cannula 2 Zoomed
@@ -255,9 +258,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/off/1.8k/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% 2.3k
@@ -269,9 +272,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/1.8k/2.3k/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% off
@@ -283,9 +286,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/2.3k/off/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% Cannula 2 Large
@@ -301,9 +304,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/off/1.8k/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% 2.3k
@@ -315,9 +318,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/1.8k/2.3k/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% off
@@ -329,9 +332,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/2.3k/off/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% Cannula 3 Zoomed
@@ -347,9 +350,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/off/1.8k/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% 2.3k
@@ -361,9 +364,9 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/1.8k/2.3k/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
 %% off
@@ -375,10 +378,10 @@ try
     % Change the output folder in 'copyfolder'
     system('sed -i -- ''s/2.3k/off/g'' copyfolder');
     % Run data
-    visualize;
+    visualize(bag, speed);
 catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n'])
+    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
 end
 
-
+fclose(fileID);
 toc

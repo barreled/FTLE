@@ -3,16 +3,18 @@ cd ../output
 rm *.csv
 rm *.bin
 
+mkdir -p './videos'
+mv *.avi $_
+
 mkdir -p './Normal/LVADoff'
 mv *.tif $_
-mv *.avi $_
 mv *.mat $_
 mv *.info $_
 
 
 cd $_
 mkdir -p ./forward;
-mv *_forward* $_
+mv *forward* $_
 
 mkdir -p ./reverse;
-mv *_reverse* $_
+mv *reverse* $_

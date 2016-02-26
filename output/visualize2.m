@@ -9,6 +9,8 @@ clc;
 tic;
 system('../nonCartFTLE');
 %cd('output')
+lowerlimit = 0;
+upperlimit = 8;
 
 %% Intialization, adapted from PIV2Doppler
 % clear all;
@@ -59,7 +61,7 @@ for i = 0:(N-1);
 %     set(hpc,'facealpha',0.4);
     shading flat
     colorbar
-    caxis([0 12])
+    caxis([lowerlimit upperlimit])
     hold on;
 %     x = 1:length(reverse);
 %     [lmaxima,indices] = localmax(reverse,[],false);
@@ -85,7 +87,7 @@ for i = 0:(N-1);
 %     set(hpc,'facealpha',0.4);
     shading flat
     colorbar
-    caxis([0 12])
+    caxis([lowerlimit upperlimit])
     hold on;
 %     x = 1:length(forward);
 %     [lmaxima,indices] = localmax(forward,[],false);
