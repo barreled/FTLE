@@ -6,13 +6,14 @@ rm *.bin
 mkdir -p './videos'
 mv *.avi $_
 
-mkdir -p './cannula3zoomed/off'
-mv *.tif $_
-mv *.mat $_
-mv *.info $_
+mkdir -p './Tilting Disc - Septum/11k'
+mv *.tif './Tilting Disc - Septum/11k'
+mv *.mat './Tilting Disc - Septum/11k'
+mv *.info './Tilting Disc - Septum/11k'
+mv *.txt './Tilting Disc - Septum/11k'
 
 
-cd $_
+cd './Tilting Disc - Septum/11k'
 mkdir -p ./forward;
 mv *forward* $_
 

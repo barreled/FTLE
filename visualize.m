@@ -4,12 +4,21 @@
 
 
 function visualize(bag, speed)
-clc;
+% clc;
+clearvars -except bag speed
 %tic;
 system('./nonCartFTLE');
-cd('output')
-lowerlimit = 1;
-upperlimit = 8;
+cd('output');
+
+lowerlimit = 3;
+upperlimit = 6;
+
+% Make files for confirming which condition it is
+fh1 = fopen([bag, ' - ', speed, ' - reverse.txt'], 'wt');
+fh2 = fopen([bag, ' - ', speed, ' - forward.txt'], 'wt');
+
+fclose(fh1);
+fclose(fh2);
 
 %% Intialization, adapted from PIV2Doppler
 % clear all;
@@ -48,45 +57,49 @@ set(gcf,'visible','off');
 
 %         Reverse FTLE data
 for i = 0:(N-1);
+    fname = ['converted_reverse.',num2str(i),'.csv'];
     try
-        reverse = csvread(['converted_reverse.',num2str(i),'.csv']);
+        reverse = csvread(fname);
     catch
-        display(['Last file was "converted_reverse.',num2str(i-1),'.csv"']);
+        display(['Last file was ',fname]);
         break
     end
     matfilename = [bag, ' - ', speed, ' - ', 'reverse',num2str(i),'.mat'];
     save(matfilename,'reverse');
     hpc = pcolor(reverse);
 %     set(hpc,'facealpha',0.4);
-    shading flat
-    colorbar
-    caxis([lowerlimit upperlimit])
+    shading flat;
+    colorbar;
+    caxis([lowerlimit upperlimit]);
+    title([bag, ' - ', speed, ' - ', 'Repelling LCS - Frame ',num2str(i,'%02d')]);
     hold on;
 %     x = 1:length(reverse);
 %     [lmaxima,indices] = localmax(reverse,[],false);
 %     [iRow,iCol] = find(lmaxima);
 %     plot(x(iCol),x(iRow),'marker','p',...
 %    'linestyle','none', 'color', 'g');
-    hold off
+    hold off;
     print(1, [bag, ' - ', speed, ' - ', 'reverse',num2str(i,'%d'),'.tif'], '-dtiff','-r100','-noui');
-    display(['Saved reverse FTLE image #',num2str(i)])
+    display(['Saved reverse FTLE image #',num2str(i)]);
 end
 
 %         Forward FTLE data
 for i = 0:(N-1);
+    fname = ['converted.',num2str(i),'.csv'];
     try
-        forward = csvread(['converted.',num2str(i),'.csv']);
+        forward = csvread(fname);
     catch
-        display(['Last file was "converted.',num2str(i-1),'.csv"']);
+        display(['Last file was ',fname]);
         break
     end
     matfilename = [bag, ' - ', speed, ' - ', 'forward',num2str(i),'.mat'];
     save(matfilename,'forward');
     hpc = pcolor(forward);
 %     set(hpc,'facealpha',0.4);
-    shading flat
-    colorbar
-    caxis([lowerlimit upperlimit])
+    shading flat;
+    colorbar;
+    caxis([lowerlimit upperlimit]);
+    title([bag, ' - ', speed, ' - ', 'Attracting LCS - Frame ',num2str(i,'%02d')]);
     hold on;
 %     x = 1:length(forward);
 %     [lmaxima,indices] = localmax(forward,[],false);
@@ -102,14 +115,7 @@ end
 %% Check for .tif files, adapted from PIV2Doppler/mkmovframebyframe
 for i = 0:(N-1)
    fileframe = [bag, ' - ', speed, ' - ', 'forward',num2str(i,'%d'),'.tif']; 
-   fileframe2 = [bag, ' - ', speed, ' - ', 'reverse',num2str(i,'%d'),'.tif']; 
-   try
-       R(i+1)=im2frame(imread(fileframe2));
-   catch
-       display(['Last file was ', fileframe2]);
-       break
-   end
-   
+   fileframe2 = [bag, ' - ', speed, ' - ', 'reverse',num2str(i,'%d'),'.tif'];
    
    try
        F(i+1)=im2frame(imread(fileframe));
@@ -117,7 +123,14 @@ for i = 0:(N-1)
        display(['Last file was ',fileframe]);
        break
    end
-    
+   
+   try
+       R(i+1)=im2frame(imread(fileframe2));
+   catch
+       display(['Last file was ', fileframe2]);
+       break
+   end
+      
    
 end
 

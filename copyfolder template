@@ -6,13 +6,14 @@ rm *.bin
 mkdir -p './videos'
 mv *.avi $_
 
-mkdir -p './Normal/LVADoff'
-mv *.tif $_
-mv *.mat $_
-mv *.info $_
+mkdir -p './Normal Bag/LVAD off'
+mv *.tif './Normal Bag/LVAD off'
+mv *.mat './Normal Bag/LVAD off'
+mv *.info './Normal Bag/LVAD off'
+mv *.txt './Normal Bag/LVAD off'
 
 
-cd $_
+cd './Normal Bag/LVAD off'
 mkdir -p ./forward;
 mv *forward* $_
 

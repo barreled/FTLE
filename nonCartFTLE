@@ -9,6 +9,7 @@ rm *.bin
 rm *.vtk
 rm *.info
 rm *.tif
+rm *.txt
 # rm *.avi
 rm *.csv
 cd ../bin

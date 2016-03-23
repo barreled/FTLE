@@ -184,10 +184,10 @@ FTLE_ICFile = dg_FTLEgrid
 
 # FTLE_MeshBounds.XMin, ..., FTLE_MeshBounds.ZRes: Specifies structured grid over which FTLE is computed
 # Valid only if FTLE_Compute = 1
-FTLE_MeshBounds.XMin = -.042
-FTLE_MeshBounds.XMax = .060
-FTLE_MeshBounds.YMin = -.044
-FTLE_MeshBounds.YMax = .033
+FTLE_MeshBounds.XMin = -.0421
+FTLE_MeshBounds.XMax = .0601
+FTLE_MeshBounds.YMin = -.0441
+FTLE_MeshBounds.YMax = .0331
 FTLE_MeshBounds.ZMin = 0.0
 FTLE_MeshBounds.ZMax = 0.0
 FTLE_MeshBounds.XRes = 344
