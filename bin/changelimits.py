@@ -59,9 +59,16 @@ fh2 = open(forwardwrite, 'w')
 
 # Open the template, copy it to the file that gets read, change the limits
 for line in fh:
-  if line.startswith('FTLE_MeshBounds.XMin'):
-    #No idea why this one needs to be different, but if I do it the same
-    #as the others it doesn't print a newline character at the end.
+  if line.startswith('FTLE_IntTLength'):
+    time = float(re.findall('[0-9.]+',line)[0])
+    fh2.write(line)
+  elif line.startswith('FTLE_MeshBounds.XRes'):
+    XresF = float(re.findall('[0-9]+',line)[0])
+    fh2.write(line)
+  elif line.startswith('FTLE_MeshBounds.YRes'):
+    YresF = float(re.findall('[0-9]+',line)[0])
+    fh2.write(line)
+  elif line.startswith('FTLE_MeshBounds.XMin'):
     fh2.write('FTLE_MeshBounds.XMin = {0:f}\n'.format(xmin))
   elif line.startswith('FTLE_MeshBounds.XMax'):
     fh2.write('FTLE_MeshBounds.XMax = {0:f}\n'.format(xmax))
@@ -80,9 +87,16 @@ fh2 = open(reversewrite, 'w')
 
 # Open the template, copy it to the file that gets read, change the limits
 for line in fh:
-  if line.startswith('FTLE_MeshBounds.XMin'):
-    #No idea why this one needs to be different, but if I do it the same
-    #as the others it doesn't print a newline character at the end.
+  if line.startswith('FTLE_IntTLength'):
+    timeR = float(re.findall('[0-9.]+',line)[0])
+    fh2.write(line)
+  elif line.startswith('FTLE_MeshBounds.XRes'):
+    XresR = float(re.findall('[0-9]+',line)[0])
+    fh2.write(line)
+  elif line.startswith('FTLE_MeshBounds.YRes'):
+    YresR = float(re.findall('[0-9]+',line)[0])
+    fh2.write(line)
+  elif line.startswith('FTLE_MeshBounds.XMin'):
     fh2.write('FTLE_MeshBounds.XMin = {0:f}\n'.format(xmin))
   elif line.startswith('FTLE_MeshBounds.XMax'):
     fh2.write('FTLE_MeshBounds.XMax = {0:f}\n'.format(xmax))
@@ -102,15 +116,21 @@ limitsF = '../output/limits_reverse.txt'
 fh = open(limitsR, 'w')
 fh2 = open(limitsF, 'w')
 
+fh.write('FTLE Integration Time = {0:f}\n'.format(timeR))
 fh.write('FTLE_MeshBounds.XMin = {0:f}\n'.format(xmin))
 fh.write('FTLE_MeshBounds.XMax = {0:f}\n'.format(xmax))
 fh.write('FTLE_MeshBounds.Ymin = {0:f}\n'.format(ymin))
-fh.write('FTLE_MeshBounds.Ymax = {0:f}'.format(ymax))
+fh.write('FTLE_MeshBounds.Ymax = {0:f}\n'.format(ymax))
+fh.write('FTLE_MeshBounds.XRes = {0:f}\n'.format(XresR))
+fh.write('FTLE_MeshBounds.YRes = {0:f}'.format(YresR))
 
+fh2.write('FTLE Integration Time = {0:f}\n'.format(time))
 fh2.write('FTLE_MeshBounds.XMin = {0:f}\n'.format(xmin))
 fh2.write('FTLE_MeshBounds.XMax = {0:f}\n'.format(xmax))
 fh2.write('FTLE_MeshBounds.Ymin = {0:f}\n'.format(ymin))
-fh2.write('FTLE_MeshBounds.Ymax = {0:f}'.format(ymax))
+fh2.write('FTLE_MeshBounds.Ymax = {0:f}\n'.format(ymax))
+fh2.write('FTLE_MeshBounds.XRes = {0:f}\n'.format(XresF))
+fh2.write('FTLE_MeshBounds.YRes = {0:f}'.format(YresF))
 
 fh.close()
 fh2.close()

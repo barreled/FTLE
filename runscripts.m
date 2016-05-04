@@ -1,419 +1,314 @@
-% Run all the scripts in a row
-% Start in PIVdata
-
-% Make a copy of 'copyfolder template' called 'copyfolder' to prevent the
-% find/replace operations later on from failing. Always have the same start
-% point.
+% % % Run all the scripts in a row
+% % % Start in PIVdata
+% % 
+% % % Make a copy of 'copyfolder template' called 'copyfolder' to prevent the
+% % % find/replace operations later on from failing. Always have the same start
+% % % point.
+clc
 tic
 cd('/home/biolab/Desktop/Brian/FTLE/PIVdata');
 system('cp ''copyfolder template'' copyfolder');
 fileID = fopen('Run errors.txt', 'wt');
+bag = 'Normal Bag';
+speed = 'LVAD off';
+oldbag = 'Normal Bag';
+oldspeed = 'LVAD off';
 
+%% 100 ml
+oldbag = bag;
+bag = '100 ml';
+
+
+    %% LVAD off
+    speed = 'LVAD off';
+
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
+
+
+    %% 8k
+    speed = '8k';
+
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
+
+    %% 11k
+    speed = '11k';
+
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
+        
+%% 150ml
+oldbag = bag;
+bag = '150 ml';
+
+
+    %% LVAD off
+    speed = 'LVAD off';
+
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
+
+
+    %% 8k
+    speed = '8k';
+
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
+
+    %% 11k
+    speed = '11k';
+
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
+
+% Tilting Disc - Free wall
+oldbag = bag;
+bag = 'Tilting Disc - Free Wall';
+
+
+    %% LVAD off
+    speed = 'LVAD off';
+
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;    
+
+    %% 8k
+    speed = '8k';
+
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
+
+    %% 11k
+    speed = '11k';
+
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
+
+%% Bileaflet
+oldbag = bag;
+bag = 'Bileaflet';
+
+
+    %% LVAD off
+    speed = 'LVAD off';
+
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
+
+
+    %% 8k
+    speed = '8k';
+
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
+
+    %% 11k
+    speed = '11k';
+
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
+
+%% Tilting Disc - Septum
+oldbag = bag;
+bag = 'Tilting Disc - Septum';
+
+    %% LVAD off
+    speed = 'LVAD off';
+
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;    
+
+    %% 8k
+    speed = '8k';
+
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
+
+
+    %% 11k
+    speed = '11k';
+
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
 %% Normal Bag
-bag = 'Normal Bag';
-oldbag = bag;
+oldbag=bag;
+bag = 'Normal';
 
-%% LVAD off
-speed = 'LVAD off';
+    %% LVAD off
+    speed = 'LVAD off';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/Normal/LVADoff/. ./bin/');
-    % Change the output folder in 'copyfolder' - not needed for first case
-    oldspeed=speed;
-    % Run data
-   %visualize(bag, speed);  
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
-    
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;    
 
-%% 8k
-speed = '8k';
+    %% 8k
+    speed = '8k';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    pwd
-    system('cp -a -rf ./bin/Normal/8k/. ./bin/');
-    pwd
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-   %visualize(bag, speed);  
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
+    %% 11k
+    speed = '11k';
 
-%% 11k
-speed = '11k';
-
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/Normal/11k/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-    %visualize(bag, speed); 
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
 %% Small Clot
+oldbag = bag;
 bag = 'Small Clot';
-system(['sed -i -- ''s/',oldbag,'/',bag,'/g'' copyfolder']);
-oldbag=bag;
 
-%% LVAD off
-speed = 'LVAD off';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/SmallClot/LVADoff/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-   %visualize(bag, speed);  
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+    %% LVAD off
+    speed = 'LVAD off';
 
-%% 8k
-speed = '8k';
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/SmallClot/8k/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-   %visualize(bag, speed);  
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+    %% 8k
+    speed = '8k';
 
-%% 11k
-speed = '11k';
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/SmallClot/11k/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-    %visualize(bag, speed); 
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+    %% 11k
+    speed = '11k';
+
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
 %% Cannula 1 Large
-bag = 'Cannula 1 Large';
-system(['sed -i -- ''s/',oldbag,'/',bag,'/g'' copyfolder']);
 oldbag=bag;
+bag = 'Cannula 1 Large';
 
-%% 1.8k
-speed = '1.8k';
+    %% 1.8k
+    speed = '1.8k';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula1large/1.8k/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-   %visualize(bag, speed);  
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
-%% 2.3k
-speed = '2.3k';
+    %% 2.3k
+    speed = '2.3k';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula1large/2.3k/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-   %visualize(bag, speed);  
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
+    %% off
+    speed = 'LVAD off';
 
-%% off
-speed = 'LVAD off';
-
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula1large/off/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-   %visualize(bag, speed);  
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
-
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
 %% Cannula 1 Zoomed
+oldbag = bag;
 bag = 'Cannula 1 Zoomed';
-system(['sed -i -- ''s/',oldbag,'/',bag,'/g'' copyfolder']);
-oldbag=bag;
 
-%% 1.8k
-speed = '1.8k';
+    %% 1.8k
+    speed = '1.8k';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula1zoomed/1.8k/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-    %visualize(bag, speed);  
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
+    %% 2.3k
+    speed = '2.3k';
 
-%% 2.3k
-speed = '2.3k';
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula1zoomed/2.3k/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-    %visualize(bag, speed);  
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+    %% off
+    speed = 'LVAD off';
 
-%% off
-speed = 'LVAD off';
-
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula1zoomed/off/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-    %visualize(bag, speed);  
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
 %% Cannula 2 Large
+oldbag = bag;
 bag = 'Cannula 2 Large';
-system(['sed -i -- ''s/',oldbag,'/',bag,'/g'' copyfolder']);
-oldbag=bag;
 
-%% 1.8k
-speed = '1.8k';
+    %% 1.8k
+    speed = '1.8k';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula2large/1.8k/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-    %visualize(bag, speed);  
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
-%% 2.3k
-speed = '2.3k';
+    %% 2.3k
+    speed = '2.3k';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula2large/2.3k/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-    %visualize(bag, speed);  
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
-%% off
-speed = 'LVAD off';
+    %% off
+    speed = 'LVAD off';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula2large/off/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-    %visualize(bag, speed);  
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
 %% Cannula 2 Zoomed
+oldbag = bag;
 bag = 'Cannula 2 Zoomed';
-system(['sed -i -- ''s/',oldbag,'/',bag,'/g'' copyfolder']);
-oldbag=bag;
 
-%% 1.8k
-speed = '1.8k';
+    %% 1.8k
+    speed = '1.8k';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula2zoomed/1.8k/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-    visualize(bag, speed); 
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
-%% 2.3k
-speed = '2.3k';
+    %% 2.3k
+    speed = '2.3k';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula2zoomed/2.3k/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-    %visualize(bag, speed);  
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
-%% off
-speed = 'LVAD off';
+    %% off
+    speed = 'LVAD off';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula2zoomed/off/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-    %visualize(bag, speed);  
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
 %% Cannula 3 Large
+oldbag = bag;
 bag = 'Cannula 3 Large';
-system(['sed -i -- ''s/',oldbag,'/',bag,'/g'' copyfolder']);
-oldbag=bag;
 
-%% 1.8k
-speed = '1.8k';
+    %% 1.8k
+    speed = '1.8k';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula3large/1.8k/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-    visualize(bag, speed); 
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
-%% 2.3k
-speed = '2.3k';
+    %% 2.3k
+    speed = '2.3k';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula3large/2.3k/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-    visualize(bag, speed); 
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
-%% off
-speed = 'LVAD off';
+    %% off
+    speed = 'LVAD off';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula3large/off/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-    visualize(bag, speed); 
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
 %% Cannula 3 Zoomed
+oldbag = bag;
 bag = 'Cannula 3 Zoomed';
-system(['sed -i -- ''s/',oldbag,'/',bag,'/g'' copyfolder']);
-oldbag=bag;
 
-%% 1.8k
-speed = '1.8k';
+    %% 1.8k
+    speed = '1.8k';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula3zoomed/1.8k/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-    visualize(bag, speed); 
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
-%% 2.3k
-speed = '2.3k';
+    %% 2.3k
+    speed = '2.3k';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula3zoomed/2.3k/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-    visualize(bag, speed); 
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
-%% off
-speed = 'LVAD off';
+    %% off
+    speed = 'LVAD off';
 
-try
-    system('rm ./bin/*.txt'); % Copy data into /bin
-    system('cp -a -rf ./bin/cannula3zoomed/off/. ./bin/');
-    % Change the output folder in 'copyfolder'
-    system(['sed -i -- ''s/',oldspeed,'/',speed','/g'' copyfolder']);
-    oldspeed=speed;
-    % Run data
-    visualize(bag, speed); 
-catch
-    fprintf(fileID, ['Error in ' bag ', ' speed '. \n']);
-end
+        filemanagement(bag,speed,oldbag,oldspeed);
+        oldspeed=speed;
 
 fclose(fileID);
 toc
+return

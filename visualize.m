@@ -10,8 +10,8 @@ clearvars -except bag speed
 system('./nonCartFTLE');
 cd('output');
 
-lowerlimit = 3;
-upperlimit = 6;
+lowerlimit = 0;
+upperlimit = 15;
 
 % Make files for confirming which condition it is
 fh1 = fopen([bag, ' - ', speed, ' - reverse.txt'], 'wt');
@@ -71,7 +71,7 @@ for i = 0:(N-1);
     shading flat;
     colorbar;
     caxis([lowerlimit upperlimit]);
-    title([bag, ' - ', speed, ' - ', 'Repelling LCS - Frame ',num2str(i,'%02d')]);
+    title([bag, ' - ', speed, ' - ', 'Attracting LCS - Frame ',num2str(i,'%02d')]);
     hold on;
 %     x = 1:length(reverse);
 %     [lmaxima,indices] = localmax(reverse,[],false);
@@ -99,7 +99,7 @@ for i = 0:(N-1);
     shading flat;
     colorbar;
     caxis([lowerlimit upperlimit]);
-    title([bag, ' - ', speed, ' - ', 'Attracting LCS - Frame ',num2str(i,'%02d')]);
+    title([bag, ' - ', speed, ' - ', 'Repelling LCS - Frame ',num2str(i,'%02d')]);
     hold on;
 %     x = 1:length(forward);
 %     [lmaxima,indices] = localmax(forward,[],false);
@@ -112,42 +112,42 @@ for i = 0:(N-1);
 end
 
 
-%% Check for .tif files, adapted from PIV2Doppler/mkmovframebyframe
-for i = 0:(N-1)
-   fileframe = [bag, ' - ', speed, ' - ', 'forward',num2str(i,'%d'),'.tif']; 
-   fileframe2 = [bag, ' - ', speed, ' - ', 'reverse',num2str(i,'%d'),'.tif'];
-   
-   try
-       F(i+1)=im2frame(imread(fileframe));
-   catch
-       display(['Last file was ',fileframe]);
-       break
-   end
-   
-   try
-       R(i+1)=im2frame(imread(fileframe2));
-   catch
-       display(['Last file was ', fileframe2]);
-       break
-   end
-      
-   
-end
-
-%% Make the movie, also adapted from PIV2Doppler/mkmovframebyframe
-
-aviname = ['forward - ', bag, ' - ', speed, '.avi'];
-aviname2 = ['reverse - ', bag, ' - ', speed, '.avi'];
-
-framesPerSec = 4;
-
-try
-    movie2avi(F,aviname,'compression','none','quality',100,'fps',framesPerSec);
-    movie2avi(R,aviname2,'compression','none','quality',100,'fps',framesPerSec);
-    disp(['LCS movies saved']);
-catch
-    disp('An error occured in making the movies')
-end
+% %% Check for .tif files, adapted from PIV2Doppler/mkmovframebyframe
+% for i = 0:(N-1)
+%    fileframe = [bag, ' - ', speed, ' - ', 'forward',num2str(i,'%d'),'.tif']; 
+%    fileframe2 = [bag, ' - ', speed, ' - ', 'reverse',num2str(i,'%d'),'.tif'];
+%    
+%    try
+%        F(i+1)=im2frame(imread(fileframe));
+%    catch
+%        display(['Last file was ',fileframe]);
+%        break
+%    end
+%    
+%    try
+%        R(i+1)=im2frame(imread(fileframe2));
+%    catch
+%        display(['Last file was ', fileframe2]);
+%        break
+%    end
+%       
+%    
+% end
+% 
+% %% Make the movie, also adapted from PIV2Doppler/mkmovframebyframe
+% 
+% aviname = ['forward - ', bag, ' - ', speed, '.avi'];
+% aviname2 = ['reverse - ', bag, ' - ', speed, '.avi'];
+% 
+% framesPerSec = 4;
+% 
+% try
+%     movie2avi(F,aviname,'compression','none','quality',100,'fps',framesPerSec);
+%     movie2avi(R,aviname2,'compression','none','quality',100,'fps',framesPerSec);
+%     disp(['LCS movies saved']);
+% catch
+%     disp('An error occured in making the movies')
+% end
 
 %toc
 

@@ -38,7 +38,7 @@ Data_SuffixTMin = 1
 Data_SuffixTDelta = 1
 
 # Data_SuffixTRes: Integer, number of velocity data files 
-Data_SuffixTRes = 39
+Data_SuffixTRes = 36
 
 # Data_TDelta: (Positive) Float, actual time spacing between successive velocity data files
 # Assumes time spacing between velocity data files is constant
@@ -80,7 +80,7 @@ Output_TStart = 0.0
 # Output_TRes: (Positive) Integer, Number of output times
 # If FTLE_Compute: Specifies number of time instances when the FTLE field will be computed AND output
 # If Trace_Compute: Specifies number of time instances that tracer positions will be output to file  
-Output_TRes = 38
+Output_TRes = 35
 
 # Output_TDelta: (Positive) Float, Time between successive output 
 # If FTLE_Compute: How often the FTLE field will be computed AND output
@@ -109,7 +109,7 @@ Int_MinTimeStep	= 0.00001
 # Int_MaxTimeStep: (Positive) Float, Maximum allowable time step used in RKF routine
 # Time step will not be increased beyond this limit even if error between RK4 and RK5 is less than Int_Accuracy
 # Valid only for Int_Type = 2
-Int_MaxTimeStep	= 0.001
+Int_MaxTimeStep	= 0.002
 
 # Int_TimeDirection: Integer, Should be set to 1 or -1
 #  1: Advect particles forward in time
@@ -196,7 +196,7 @@ FTLE_MeshBounds.ZRes = 1
 
 # FTLE_IntTLength: (Positive) Float, Integration time used to compute FTLE
 # Valid only if FTLE_Compute = 1
-FTLE_IntTLength = 1.9
+FTLE_IntTLength = .20
 
 # FTLE_ComputeVariation: Binary flag, Used to help determine appropriate integration time by ah hoc means
 # 0: Compute FTLE at each output time with integration time set to FTLE_IntTimeLength (nominally, can be reduced when a tracer leaves early)

@@ -190,9 +190,6 @@ for position1, index1, x1, y1, z1 in pos1:
   ds = 0
   dr = 0
   
-  if x1%2 != 0:  # For new logic v2
-    continue
-  
   if y1 == ymin: continue #don't check anything in the last row since there's no nodes beneath it
   (position4, index4, x4, y4) = pos1[position1 + xlen][0:4] #node straight down
   
@@ -221,6 +218,21 @@ for position1, index1, x1, y1, z1 in pos1:
   
   el0 = el
   #element creation logic
+  
+  ##### New logic v3
+  #if (sl & ds):
+    #element.append((el, index0, index1, index4))
+    #el = el + 1
+  #if (ds & sl & (not sl)):
+    #element.append((el, index3, index1, index4))
+    #el = el + 1
+  #if (sr & dr):
+    #element.append((el, index1, index4, index5))
+    #el = el + 1
+  #if ((not dr) & sr & ds):
+    #element.append((el, index1, index4, index2))
+    #el = el + 1	
+  
   
   ##### New logic
   #if ((not sl) & dl & ds):
@@ -251,7 +263,9 @@ for position1, index1, x1, y1, z1 in pos1:
     #element.append((el, index1, index2, index5))
     #el = el + 1
     
-  # New logic v2 (Not sure why, but both of the other schemes were failing for Cannula 2 Zoomed - 1.8k. There was an error with the "local element search" in flowVC
+  ###### New logic v2 (Not sure why, but all the other schemes were failing for Cannula 2 Zoomed - 1.8k. There was an error with the "local element search" in flowVC
+  if x1%2 != 0:  # For new logic v2
+    continue
   if (sl & dl):
     element.append((el, index0, index1, index3))
     el = el + 1
@@ -269,7 +283,36 @@ for position1, index1, x1, y1, z1 in pos1:
     el = el + 1
   if (sr & dr):
     element.append((el, index1, index2, index5))
-    el = el + 1    
+    el = el + 1
+    
+  ####### New logic v4
+  #if x1%2 != 0:
+    #if (sl & ds & (not dl)):
+      #element.append((el, index0, index1, index4))
+      #el = el + 1
+    #if (dl & ds):
+      #element.append((el, index3, index1, index4))
+      #el = el + 1
+    #if (ds & dr):
+      #element.append((el, index1, index4, index5))
+      #el = el + 1
+    #if ((not dr) & ds & sr):
+      #element.append((el, index1, index4, index2))
+      #el = el + 1
+  #else:
+    #if (sl & ds):
+      #element.append((el, index0, index1, index4))
+      #el = el + 1
+    #if (dl & ds & (not sl)):
+      #element.append((el, index3, index1, index4))
+      #el = el + 1
+    #if (ds & dr & (not sr)):
+      #element.append((el, index1, index4, index5))
+      #el = el + 1
+    #if (ds & sr):
+      #element.append((el, index1, index4, index2))
+      #el = el + 1
+  
     
   #if position1 < 40:  
     #print '{:d} elements for node {:d}'.format(el - el0, index1)

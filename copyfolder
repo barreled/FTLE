@@ -6,14 +6,14 @@ rm *.bin
 mkdir -p './videos'
 mv *.avi $_
 
-mkdir -p './Tilting Disc - Septum/11k'
-mv *.tif './Tilting Disc - Septum/11k'
-mv *.mat './Tilting Disc - Septum/11k'
-mv *.info './Tilting Disc - Septum/11k'
-mv *.txt './Tilting Disc - Septum/11k'
+mkdir -p './Small Clot/LVAD off'
+mv *.tif './Small Clot/LVAD off'
+mv *.mat './Small Clot/LVAD off'
+mv *.info './Small Clot/LVAD off'
+mv *.txt './Small Clot/LVAD off'
 
 
-cd './Tilting Disc - Septum/11k'
+cd './Small Clot/LVAD off'
 mkdir -p ./forward;
 mv *forward* $_
 
